@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="keywords" content="songs, song lyrics, lyrics, graphs, nodes, edges, digraph, spanning tree, dot, graphviz, analysis" />
+<meta http-equiv="description" content="LyricGraph generates directed graphs from song lyrics." />
+
+<title>LyricGraph</title>
+<link rel="stylesheet" type="text/css" href="http://media.astound.eu/lgweb/style.css" media="screen" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16841396-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+<body>
+<div id="header">
+<h1>LyricGraph Generator</h1>
+ <div id="menu">
+  <ul id="nav">
+   <!--<li><a href="#">Home</a></li>-->
+  </ul>
+ </div>
+</div>
+<div id="content">
+<div id="right">
+<h2>Generate A Song Graph</h2>
+	<form name="single" method="post" action="/generate">
+	Artist: <input id="artist" name="artist" type="text" maxlength="255" value=""/>
+	Song Title: <input id="song" name="song" type="text" maxlength="255" value=""/>
+	<input id="submit" class="button_text" type="submit" name="submit" value="Generate!" /> 
+	</form>
+<h2>Generate A Song Comparison</h2>
+	<form name="double" method="post" action="/compare">
+	Artist 1: <input id="artist1" name="artist1" type="text" maxlength="255" value=""/>
+	Song Title 1: <input id="song1" name="song1" type="text" maxlength="255" value=""/>
+	<br />
+	Artist 2: <input id="artist2" name="artist2" type="text" maxlength="255" value=""/>
+	Song Title 2: <input id="song2" name="song2" type="text" maxlength="255" value=""/>
+	<input id="submit" class="button_text" type="submit" name="submit" value="Generate!" /> 
+	</form>
+
+<h2>List of Pre-generated Graphs:</h2>
+{% for graph in singles %}
+	<p>
+		<a href="{{media_url}}graphs/{{graph.filename}}">{{graph.artist}} - {{graph.song}}</a>
+		<a href="vote_up/g/{{graph.id}}">
+			<img class="arrowl" src="{{media_url}}/up.gif" alt="vote up" />
+		</a>
+		<span class="rank">{{graph.get_rank}}</span>
+		<a href="vote_down/g/{{graph.id}}">
+			<img class="arrowr" src="{{media_url}}/down.gif" alt="vote down" />
+		</a>
+	</p>
+{% endfor %}
+
+<h2>List of Pre-generated Comparisons:</h2>
+{% for graph in doubles %}
+	<p>
+		<a href="{{media_url}}graphs/{{graph.filename}}">({{graph.artist1}} - {{graph.song1}}) vs ({{graph.artist2}} - {{graph.song2}})</a>
+		<a href="vote_up/c/{{graph.id}}">
+                        <img class="arrowl" src="{{media_url}}/up.gif" alt="vote up" />
+                </a>
+		<span class="rank">{{graph.get_rank}}</span>
+                <a href="vote_down/c/{{graph.id}}">
+                        <img class="arrowr" src="{{media_url}}/down.gif" alt="vote down" />
+                </a>
+	</p>
+{% endfor %}
+
+</div>
+	
+<div id="left">
+	<div class="box">
+			<h2>Inspiration:</h2>	
+			<p>This website was inspired wholly by <a href="http://www.xkcd.com/851/">XKCD - Na</a></p>
+			<h2>Meaning:</h2>
+			<p>The graphs are coloured by how often a word occurs.  Darker colours are less frequent.</p>
+			<p>The two colour graphs use the same system, except with colour blending where words are in both songs</p>
+			<h2>How To Use</h2>
+			<p>Just enter a song title, or pair of song titles for a graph generation.  Wait a few moments, then the song you requested will appear in the list on the main page.  Click the title to view the graph. Simples! </p>
+			<h2>No joy?</h2>
+			<p> If no results are found for that song, the page will refresh ready for you to have another go</p>
+
+	</div>
+			
+	<div class="box">
+				<h2>Fun things:</h2>
+				<ul>
+				<li><a href="http://tomoconnor.eu">Tom O'Connor</a></li>
+				<li><a href="http://www.xkcd.com">XKCD</a></li>
+				</ul>
+	</div>
+		
+    <div class="box">
+	   <div style="font-size: 0.8em;">Design by <a href="http://www.minimalistic-design.net">Minimalistic Design</a></div>
+	   <div style="font-size: 0.8em;">Lyrics Provided by <a href="http://www.chartlyrics.com">Chartlyrics API</a></div>
+	</div>
+</div>
+</div>
+</body>
+</html>
